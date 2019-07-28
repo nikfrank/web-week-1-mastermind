@@ -4,9 +4,19 @@ export const initState = {
   code: [1, 2, 3, 4],
 };
 
-export const reducers = {};
+export const reducers = {
+  setCode: (state, action)=> ({
+    ...state,
+    code: action.payload,
+  }),
+};
 
-export const actions = {};
+export const actions = {
+  setCode: code => ({
+    type: 'setCode',
+    payload: code,
+  }),
+};
 
 export const identity = i => i;
 
