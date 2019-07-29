@@ -1,4 +1,4 @@
-.code-container {
+.code-container, .guess-container {
   width: 70vw;
   margin: 0 auto;
 
@@ -35,3 +35,45 @@
 .dot-3::after { background-color: gold; }
 .dot-4::after { background-color: blue; }
 .dot-5::after { background-color: cyan; }
+
+button.guess {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.black {
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  background-color: black;
+}
+
+.white {
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  background-color: pink;
+}
+
+.guess-score-container {
+  display: flex;
+}
+
+.guesses {
+  display: flex;
+  width: 70vw;
+  flex-direction: column-reverse;
+}
+
+.scores {
+  display: flex;
+  width: 25vw;
+  flex-direction: column-reverse;
+}
+
+.score-container {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
