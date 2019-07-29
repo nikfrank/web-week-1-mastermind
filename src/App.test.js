@@ -21,7 +21,7 @@ it('renders the App with a code', ()=> {
 
   const nextCode = initState.code.map((digit, i)=> (
     i ? digit : (digit + 1) % 6
-  ));  // [2, 2, 3, 4]
+  ));
 
   expect( store.getState().code ).toEqual( initState.code );
 
