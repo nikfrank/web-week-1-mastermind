@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import score from './score';
 
 
@@ -20,6 +20,13 @@ export const reducers = {
     guesses: [...state.guesses, state.code],
     scores: [...state.scores, score(state.secret)(state.code)],
   }),
+
+  newGame: (state, action)=> ({
+    ...state,
+    scores: [],
+    guesses: [],
+    secret: [1,2,3,4].map(()=> Math.floor(Math.random()*6)),
+  }),
 };
 
 export const actions = {
@@ -29,6 +36,8 @@ export const actions = {
   }),
 
   guess: ()=> ({ type: 'guess' }),
+
+  newGame: ()=> ({ type: 'newGame' }),
 };
 
 export const identity = i => i;
@@ -38,4 +47,9 @@ export const reducer = (state, action)=> (
 )(state, action);
 
 
-export default createStore(reducer, initState);
+export default createStore(reducer, initState, applyMiddleware(
+  store => next => action => {
+    console.log(action);
+    return next(action);
+  }
+));

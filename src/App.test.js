@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
-import store, { initState } from './store';
+import store, { initState, actions } from './store';
 
 import score from './score';
 
@@ -40,14 +40,14 @@ it('guesses the code', ()=> {
 
   expect( guessButton ).toHaveLength( 1 );
 
-  const initState = store.getState();
+  const state = store.getState();
 
   guessButton.at(0).simulate('click');
 
   const stateAfterClick = store.getState();
 
   expect( stateAfterClick.guesses ).toHaveLength(
-    initState.guesses.length + 1
+    state.guesses.length + 1
   );
 
   const guessDivs = p.find('.guess-container');
@@ -74,17 +74,49 @@ it('guesses the code', ()=> {
 
 
   expect( stateAfterClick.scores ).toHaveLength(
-    initState.scores.length + 1
+    state.scores.length + 1
   );
 
   expect( stateAfterClick.scores.reverse()[0] )
-    .toEqual( score(initState.secret)(initState.code) );
+    .toEqual( score(state.secret)(state.code) );
 
   const blacks = p.find('.black');
   const whites = p.find('.white');
 
   expect( blacks ).toHaveLength( stateAfterClick.scores[0][0] );
   expect( whites ).toHaveLength( stateAfterClick.scores[0][1] );
+});
+
+it('ends the game when the user guesses the secret', ()=> {
+  const p = mount(<Provider store={store}><App/></Provider>);
+
+  const state = store.getState();
+
+  store.dispatch( actions.setCode(state.secret) );
+
+  p.find('button.guess').at(0).simulate('click');
+
+  const nextState = store.getState();
+
+  expect( nextState.scores[ nextState.scores.length - 1 ])
+    .toEqual([ 4, 0 ]);
+
+  const nextGuessButton = p.find('button.guess');
+
+  expect( nextGuessButton ).toHaveLength( 0 );
+
+  const newGameButton = p.find('button.new-game');
+
+  expect( newGameButton ).toHaveLength( 1 );
+
+  p.find('button.new-game').at(0).simulate('click');
+
+  const newGameState = store.getState();
+
+  expect( newGameState.scores ).toHaveLength( 0 );
+  expect( newGameState.guesses ).toHaveLength( 0 );
+
+  expect( newGameState.secret ).not.toEqual( state.secret );
 });
 
 

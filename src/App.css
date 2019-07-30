@@ -36,6 +36,7 @@
 .dot-4::after { background-color: blue; }
 .dot-5::after { background-color: cyan; }
 
+
 button.guess {
   width: 100%;
   margin: 10px 0;

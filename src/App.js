@@ -5,12 +5,16 @@ import { connect } from 'react-redux';
 import { actions } from './store';
 import CodeInput from './CodeInput';
 
-const App = ({ code, guesses, scores, setCode, guess })=> (
+const App = ({ code, guesses, scores, setCode, guess, newGame })=> (
   <div className='App'>
     <div className='code-container'>
       <CodeInput code={code} onChange={setCode} colors={6} />
     </div>
-    <button className='guess' onClick={guess}>GUESS</button>
+    {(!scores.length || (scores[scores.length-1][0] !== 4)) ? (
+      <button className='guess' onClick={guess}>GUESS</button>
+    ) : (
+      <button className='new-game' onClick={newGame}>NEW GAME</button>
+    )}
     <div className='guess-score-container'>
       <div className='guesses'>
         {guesses.map((guess, i)=> (
